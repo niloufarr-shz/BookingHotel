@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { parseISO, format, isToday, isValid } from "date-fns";
-
+import Menus from "../../ui/Menus"
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
-
+import { IoEyeOutline } from "react-icons/io5";
+import { BsCalendar2Check } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 const Cabin = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
@@ -45,6 +47,7 @@ function BookingRow({
     cabins: { name: cabinName },
   },
 }) {
+  const navigate = useNavigate()
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
@@ -81,7 +84,7 @@ function BookingRow({
         </span>
 
         <span>
-          {start ? format(start, "MMM dd yyyy") : "—"} &mdash;{" "}
+          {start ? format(start, "MMM dd yyyy") : "—"} &mdash;
           {end ? format(end, "MMM dd yyyy") : "—"}
         </span>
       </Stacked>
@@ -89,6 +92,24 @@ function BookingRow({
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
+      <Menus.Menu>
+        <Menus.Toggle id={bookingId}/>
+
+        <Menus.List id={bookingId}>
+          <Menus.Button icon={<IoEyeOutline />} 
+          onClick={()=> navigate(`/bookings/${bookingId}`)} >
+           see details
+           </Menus.Button>
+
+
+         { status==="unconfirmed" &&
+          <Menus.Button icon={<BsCalendar2Check />} 
+          onClick={()=> navigate(`/checkin/${bookingId}`)} >
+           check in
+           </Menus.Button>}
+
+        </Menus.List>  
+      </Menus.Menu>
     </Table.Row>
   );
 }

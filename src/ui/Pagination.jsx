@@ -1,5 +1,8 @@
 import styled from "styled-components";
-
+import { SlArrowLeft } from "react-icons/sl";
+import { SlArrowRight } from "react-icons/sl";
+import { useSearchParams } from "react-router-dom";
+import {Page_Size} from "../utils/constatnts"
 const StyledPagination = styled.div`
   width: 100%;
   display: flex;
@@ -55,3 +58,50 @@ const PaginationButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+
+function Pagination({ count }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = !searchParams.get("page")
+    ? 1
+    : Number(searchParams.get("page"));
+
+  const pageCount = Math.ceil(count / Page_Size);
+  function nextPage() {
+    const next = currentPage === pageCount ? currentPage : currentPage + 1;
+    searchParams.set("page", next);
+    setSearchParams(searchParams);
+  }
+  function prevPage() {
+    const prev = currentPage === 1 ? currentPage : currentPage - 1;
+    searchParams.set("page", prev);
+    setSearchParams(searchParams);
+  }
+  if (pageCount <= 1) return null;
+  return (
+    <StyledPagination>
+      <P>
+        showing <span> {(currentPage - 1) * Page_Size + 1} </span>
+        to
+        <span>
+          {currentPage === pageCount ? count : currentPage * Page_Size}
+        </span>
+        of <span>{count}</span> results
+      </P>
+
+      <Buttons>
+        <PaginationButton onClick={prevPage} disabled={currentPage === 1}>
+          <SlArrowLeft /> <span> Previous </span>
+        </PaginationButton>
+        <PaginationButton
+          onClick={nextPage}
+          disabled={currentPage === pageCount}
+        >
+          <span> Next </span> <SlArrowRight />
+        </PaginationButton>
+      </Buttons>
+    </StyledPagination>
+  );
+}
+
+export default Pagination;

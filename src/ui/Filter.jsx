@@ -41,6 +41,7 @@ function Filter({ filterField, options }) {
 
   function handleClick(value) {
     serachParams.set(filterField, value);
+    if(serachParams.get("page"))  serachParams.set("page" ,1)
     setserachParams(serachParams);
   }
   return (

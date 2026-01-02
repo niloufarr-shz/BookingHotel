@@ -1,13 +1,21 @@
 import styled from "styled-components";
 import { parseISO, format, isToday, isValid } from "date-fns";
-import Menus from "../../ui/Menus"
-import Tag from "../../ui/Tag";
-import Table from "../../ui/Table";
-import { formatCurrency } from "../../utils/helpers";
-import { formatDistanceFromNow } from "../../utils/helpers";
 import { IoEyeOutline } from "react-icons/io5";
 import { BsCalendar2Check } from "react-icons/bs";
+import { CiInboxOut } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
+import Menus from "../../ui/Menus";
+import Tag from "../../ui/Tag";
+import Table from "../../ui/Table";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+
+import { formatCurrency } from "../../utils/helpers";
+import { formatDistanceFromNow } from "../../utils/helpers";
+
 import { useNavigate } from "react-router-dom";
+import { useCheckout } from "../check-in-out/useCheckout";
+import { useDeleteBooking } from "./useDeleteBooking";
 const Cabin = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
@@ -47,7 +55,9 @@ function BookingRow({
     cabins: { name: cabinName },
   },
 }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { checkout, isCheckOut } = useCheckout();
+  const { isDeleting, deleteBooking } = useDeleteBooking();
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
@@ -92,24 +102,51 @@ function BookingRow({
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
-      <Menus.Menu>
-        <Menus.Toggle id={bookingId}/>
 
-        <Menus.List id={bookingId}>
-          <Menus.Button icon={<IoEyeOutline />} 
-          onClick={()=> navigate(`/bookings/${bookingId}`)} >
-           see details
-           </Menus.Button>
+      <Modal>
+        <Menus.Menu>
+          <Menus.Toggle id={bookingId} />
 
+          <Menus.List id={bookingId}>
+            <Menus.Button
+              icon={<IoEyeOutline />}
+              onClick={() => navigate(`/bookings/${bookingId}`)}
+            >
+              see details
+            </Menus.Button>
 
-         { status==="unconfirmed" &&
-          <Menus.Button icon={<BsCalendar2Check />} 
-          onClick={()=> navigate(`/checkin/${bookingId}`)} >
-           check in
-           </Menus.Button>}
+            {status === "unconfirmed" && (
+              <Menus.Button
+                icon={<BsCalendar2Check />}
+                onClick={() => navigate(`/checkin/${bookingId}`)}
+              >
+                check in
+              </Menus.Button>
+            )}
+            {status === "checked-in" && (
+              <Menus.Button
+                icon={<CiInboxOut />}
+                disabled={isCheckOut}
+                onClick={() => checkout(bookingId)}
+              >
+                check out
+              </Menus.Button>
+            )}
 
-        </Menus.List>  
-      </Menus.Menu>
+            <Modal.Open opens="delete">
+              <Menus.Button icon={<MdDelete />}>Delete Booking</Menus.Button>
+            </Modal.Open>
+          </Menus.List>
+        </Menus.Menu>
+
+        <Modal.Window name="delete">
+          <ConfirmDelete
+            resourceName="booking"
+            onConfirm={() => deleteBooking(bookingId)}
+            disabled={isDeleting}
+          />
+        </Modal.Window>
+      </Modal>
     </Table.Row>
   );
 }

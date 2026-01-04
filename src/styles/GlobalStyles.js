@@ -188,3 +188,4 @@ img {
 `;
 
 export default GlobalStyles;
+

@@ -1,17 +1,17 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { box } from 'styles/styles';
-import Button from 'ui/Button';
-import Heading from 'ui/Heading';
-import Row from 'ui/Row';
-import Spinner from 'ui/Spinner';
+import { box } from '../../styles/styles';
+import Button from '../../ui/Button';
+import Heading from '../../ui/Heading';
+import Row from '../../ui/Row';
+import Spinner from '../../ui/Spinner';
 import TodayItem from '../dashboard/TodayItem';
-import { useActivityTodayStays } from './useActivityTodayStays';
+import { useTodayActivity } from '../check-in-out/useTodayActivity'
 
 const StyledToday = styled.div`
   ${box}
   padding: 3.2rem;
-  display: flex;
+  display: flex; 
   flex-direction: column;
   gap: 2.4rem;
   grid-column: 1 / span 2;
@@ -38,7 +38,7 @@ const NoActivity = styled.p`
 `;
 
 function Today() {
-  const { isLoading, stays } = useActivityTodayStays();
+  const { isLoading, activities } = useTodayActivity();
 
   return (
     <StyledToday>
@@ -49,10 +49,10 @@ function Today() {
       </Row>
 
       {!isLoading ? (
-        stays?.length > 0 ? (
+        activities?.length > 0 ? (
           <TodayList>
-            {stays.map((stay) => (
-              <TodayItem key={stay.id} stay={stay} />
+            {activities.map((activity) => (
+              <TodayItem key={activity.id} activity={activity} />
             ))}
           </TodayList>
         ) : (

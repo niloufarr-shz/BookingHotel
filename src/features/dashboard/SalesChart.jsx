@@ -110,7 +110,7 @@ function SalesChart({ bookings, numDays }) {
 
 export default SalesChart;
 
-const OLDdata = [
+/* const OLDdata = [
   { label: 'Jan 09', totalSales: 480, extrasSales: 320 - 300 },
   { label: 'Jan 10', totalSales: 580, extrasSales: 400 - 300 },
   { label: 'Jan 11', totalSales: 550, extrasSales: 450 - 300 },
@@ -141,3 +141,4 @@ const OLDdata = [
   { label: 'Feb 05', totalSales: 1400, extrasSales: 1100 - 500 },
   { label: 'Feb 06', totalSales: 1450, extrasSales: 900 - 500 },
 ];
+ */

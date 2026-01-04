@@ -1,11 +1,10 @@
-import { useState } from "react";
 import Button from "../../ui/Button";
 import CreateCabinForm from "./CreateCabinForm";
 import Modal from "../../ui/Modal";
 import CabinTable from "./CabinTable";
 
 function AddCabin() {
-  const [isOpenModal, setisOpenModal] = useState(false);
+ 
   return (
     <Modal>
       <Modal.Open opens="cabin-form">

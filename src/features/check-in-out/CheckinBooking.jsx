@@ -5,8 +5,6 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 import styled from "styled-components";
-import { box } from "../../styles/styles";
-
 import { useBooking } from "../bookings/useBooking";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import BookingDataBox from "../bookings/BookingDataBox";

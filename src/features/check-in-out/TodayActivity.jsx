@@ -1,7 +1,5 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { box } from '../../styles/styles';
-import Button from '../../ui/Button';
 import Heading from '../../ui/Heading';
 import Row from '../../ui/Row';
 import Spinner from '../../ui/Spinner';
@@ -67,7 +65,7 @@ function Today() {
 
 export default Today;
 
-const OLDdata = [
+/* const OLDdata = [
   {
     id: 1,
     status: 'unconfirmed',
@@ -104,4 +102,4 @@ const OLDdata = [
     guests: { fullName: 'Mary Williams' },
     numNights: 4,
   },
-];
+]; */

@@ -30,7 +30,7 @@ const Guest = styled.div`
 function TodayItem({ activity }) {
   const { id, status, guests, numNights } = activity;
 
-  const statusToAction = {
+/*   const statusToAction = {
     unconfirmed: {
       action: "arriving",
       tag: "green",
@@ -51,7 +51,7 @@ function TodayItem({ activity }) {
       button: <CheckoutButton bookingId={id} />,
     },
   };
-
+ */
   return (
     <StyledTodayItem>
       {/*  <Tag type={statusToAction[status].tag}>
@@ -61,7 +61,7 @@ function TodayItem({ activity }) {
       <Guest>{guests.fullName}</Guest>
       <div>{numNights} nights</div>
       {statusToAction[status].button} */}
-      
+
       {status === "unconfirmed" && <Tag type="green">Arriving</Tag>}
       {status === "checked-in" && <Tag type="blue">Departing</Tag>}
       <Flag src={guests.countryFlag} alt={`Flag of ${guests.country}`} />
